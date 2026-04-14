@@ -390,38 +390,6 @@ with tab1:
                 st.pyplot(fig)
                 st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------------------------------
-# TAB 2: BATCH ANALYSIS
-# ------------------------------------------
-with tab2:
-    st.markdown('<div class="ts-card">', unsafe_allow_html=True)
-    st.markdown("### 📚 Batch Processing")
-    st.caption("Enter multiple URLs (one per line) to analyze them in bulk.")
-
-    batch_input = st.text_area("URLs", height=200, placeholder="https://malicious-site.com\nhttps://safe-bank.com", label_visibility="collapsed")
-
-    col_b_space, col_b_btn = st.columns([4, 1])
-    with col_b_btn:
-        process_batch = st.button("⚡ Process Batch")
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    if process_batch and batch_input.strip():
-        urls = [u.strip() for u in batch_input.split('\n') if u.strip()]
-        results = []
-        for u in urls:
-            f = extract_features(u)
-            x_arr = np.array([f.get(c, 0) for c in feat_cols]).reshape(1, -1)
-            p = model.predict_proba(x_arr)[0][1] * 100
-            results.append({"URL": u, "Risk Score": p, "Status": "MALICIOUS" if p >= 50 else "SAFE"})
-
-        df_batch = pd.DataFrame(results)
-        st.markdown('<div class="ts-card">', unsafe_allow_html=True)
-        st.markdown(f"**Batch Results ({len(urls)})**")
-        # Apply color styling
-        styled_df = df_batch.style.map(lambda x: 'color: #f87171; font-weight:bold;' if x == 'MALICIOUS' else 'color: #34d399; font-weight:bold;' if x == 'SAFE' else '')
-        st.dataframe(styled_df, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------
 # TAB 3: MODEL PERFORMANCE
