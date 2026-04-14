@@ -264,7 +264,7 @@ if "history" not in st.session_state:
 
 model, feat_cols = load_model()
 
-tab1, tab2, tab3 = st.tabs(["🔍 Single URL", "📄 Batch Analysis", "📊 Model Performance"])
+tab1, tab2, = st.tabs(["🔍 Single URL","📊 Model Performance"])
 
 # ------------------------------------------
 # TAB 1: SINGLE URL SCANNER
